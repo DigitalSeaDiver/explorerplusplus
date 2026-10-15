@@ -207,6 +207,43 @@ TEST_F(SessionRestorerTest, CommandLineDirectoriesWithDefaultFolder)
 	VerifyTabs(restoredBrowser, m_commandLineSettings.directories);
 }
 
+TEST_F(SessionRestorerTest, CustomFoldersUseDefaultFolderSettings)
+{
+	m_config.startupMode = StartupMode::CustomFolders;
+	m_config.startupFolders = { L"c:\\", L"d:\\" };
+	m_config.defaultFolderSettings.viewMode = ViewMode::Details;
+
+	m_sessionRestorer.Restore({});
+	ASSERT_EQ(m_browserList.GetSize(), 1u);
+
+	auto *restoredBrowser = m_browserList.GetLastActive();
+	ASSERT_NE(restoredBrowser, nullptr);
+
+	for (const auto *tab : restoredBrowser->GetActiveTabContainer()->GetAllTabsInOrder())
+	{
+		EXPECT_EQ(tab->GetShellBrowser()->GetFolderSettings().viewMode, +ViewMode::Details);
+	}
+}
+
+TEST_F(SessionRestorerTest, CommandLineDirectoriesUseDefaultFolderSettings)
+{
+	m_config.startupMode = StartupMode::DefaultFolder;
+	m_config.defaultFolderSettings.viewMode = ViewMode::List;
+
+	m_commandLineSettings.directories = { L"d:\\", L"d:\\folder" };
+
+	m_sessionRestorer.Restore({});
+	ASSERT_EQ(m_browserList.GetSize(), 1u);
+
+	auto *restoredBrowser = m_browserList.GetLastActive();
+	ASSERT_NE(restoredBrowser, nullptr);
+
+	for (const auto *tab : restoredBrowser->GetActiveTabContainer()->GetAllTabsInOrder())
+	{
+		EXPECT_EQ(tab->GetShellBrowser()->GetFolderSettings().viewMode, +ViewMode::List);
+	}
+}
+
 TEST_F(SessionRestorerTest, CommandLineFilesToSelect)
 {
 	m_commandLineSettings.filesToSelect = { L"c:\\users", L"h:\\project\\documents" };
