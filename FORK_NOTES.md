@@ -53,14 +53,25 @@
 4. 修改程式碼，並新增單元測試
 5. 在本機建立分支 `fix-default-view-mode` 並 commit
 6. 推送到本分支 repository，更新版本號與本說明文件
+7. 安裝 Visual Studio 2022 Build Tools，編譯執行檔、執行單元測試，並把執行檔附到 GitHub Release
 
 ### 建置與測試狀態
 
-- 已用 vcpkg 安裝相依套件。
-- 用 Visual Studio 2019 Build Tools（MSVC 14.29、Windows SDK 10.0.19041）嘗試編譯，因工具鏈版本過舊而失敗：
-  SDK 的 GDI+ 標頭出現 `min`/`max` 錯誤，C++/WinRT 標頭也造成編譯器內部錯誤。
-  原專案建議使用 Visual Studio 2022。
-- 因此**本版本尚未編譯，單元測試也尚未執行**。使用前請先用 Visual Studio 2022 自行建置與測試。
+- 用 vcpkg 安裝相依套件（靜態連結，triplet `x64-windows-static`）。
+- 先用 Visual Studio 2019 Build Tools 嘗試編譯，因工具鏈過舊而失敗：
+  Windows SDK 10.0.19041 的 GDI+ 標頭出現 `min`/`max` 錯誤，C++/WinRT 標頭也造成編譯器內部錯誤。
+- 改用 **Visual Studio 2022 Build Tools**（MSVC v143、Windows 11 SDK 10.0.22621）後，
+  `Release|x64` 編譯成功，0 個錯誤。產出的 `Explorer++.exe` 檔案版本為 `1.5.1.0`。
+- 單元測試（`TestExplorer++`，Release x64）：**865 個測試全部通過**，包括本次新增的 2 個。
+- 執行檔已實際啟動確認可以正常執行。
+
+執行檔放在 [v1.5.1 Release](https://github.com/dendrobium0402-dot/explorerplusplus/releases/tag/v1.5.1)，
+檔名為 `explorerpp_1.5.1_x64.zip`，內含 `Explorer++.exe`、`LICENSE` 與本文件。執行檔是單一檔案，不需安裝。
+
+`Explorer++.exe` 的 SHA-256：`1646D80A7EE0F60BA5E6FBBD3EDCAC9E682F9E647F15568BAA790D71435E57B6`
+（zip 檔的 SHA-256 列在 Release 頁面）
+
+執行檔未經程式碼簽章，第一次執行時 Windows SmartScreen 可能會跳出警告。
 
 ## 使用工具
 
@@ -69,7 +80,8 @@
 | [Claude Code](https://claude.com/claude-code)（Claude 桌面應用程式） | AI 程式助理：分析原始碼、找出問題原因、撰寫修正與測試、撰寫本文件 |
 | Git / GitHub | 版本控制、fork 與推送 |
 | vcpkg | 安裝 C++ 相依套件 |
-| Visual Studio 2019 Build Tools（MSBuild、MSVC） | 嘗試編譯 |
+| Visual Studio 2022 Build Tools（MSBuild、MSVC v143） | 編譯執行檔與單元測試 |
+| Visual Studio 2019 Build Tools | 最初嘗試編譯（失敗） |
 
 ## AI 使用聲明
 
