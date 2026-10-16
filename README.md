@@ -4,6 +4,11 @@
 
 # Explorer++
 
+> **分支版本 1.5.1（Fork）**：本 repository 是 [derceg/explorerplusplus](https://github.com/derceg/explorerplusplus) 的分支，
+> 修正了「預設檔案檢視模式固定為中圖示、未套用使用者設定」的問題。
+> 修正在 AI 程式助理（Claude Code / Claude Opus 5.5）協助下完成。
+> 編修過程、使用工具、建置狀態與對原作者 David Erceg 的感謝，請見 [FORK_NOTES.md](FORK_NOTES.md)。
+
 Explorer++ is a lightweight and fast file manager for Windows.
 
 ## Features
